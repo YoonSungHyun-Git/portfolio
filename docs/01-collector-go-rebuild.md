@@ -58,6 +58,5 @@ flowchart LR
 ## 결과
 
 - Windows/Linux 공통 코드베이스, Linux 릴리스 CI
-- 50km 구간 FFT 연산 4.94초 → 2.02초 (59% 단축: OpenMP 병렬화 + 회전인자 캐싱)
 - 운영 배포 후 메모리 관련 장애 두 건은 원인까지 확정해 수정 → [장애 분석](02-incident-analysis.md)
 - C 개발자 2명이 Go 코드베이스로 넘어올 수 있도록 C→Go 교육 커리큘럼 작성(AI 활용)
