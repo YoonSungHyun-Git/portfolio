@@ -1,7 +1,7 @@
 # 윤성현 · 백엔드 개발자
 
-Java/Spring 백엔드 15년차. 결제·정산 서버를 9년간 운영했고, Kafka·RabbitMQ·MQTT로 실시간 데이터 파이프라인을 만들어 왔습니다.
-최근에는 레거시 C를 Go로 재구축하고, 운영 장애의 원인을 실측으로 확정해 고치는 일을 하고 있습니다.
+15년차 백엔드 개발자입니다. Java/Spring을 주력으로 결제·정산, DB 모니터링, 광섬유 센서 관제 시스템의 서버를 만들어 왔고, 필요한 곳은 프론트엔드와 배포까지 직접 맡았습니다.
+지금은 5명 팀을 이끌며 레거시 시스템을 새 구조로 옮기고, Claude Code 같은 AI 개발 도구를 팀 개발 환경에 들여 쓰고 있습니다.
 
 이 저장소는 회사 코드 없이 정리한 **아키텍처 문서**와, 핵심 기법을 새로 구현한 **샘플 코드**를 담고 있습니다.
 
@@ -31,7 +31,7 @@ Java/Spring 백엔드 15년차. 결제·정산 서버를 9년간 운영했고, K
 - **Messaging**: Kafka, RabbitMQ, MQTT
 - **Database**: PostgreSQL, Oracle(PL/SQL), InfluxDB
 - **Infra**: Docker, Gradle, GitHub Actions
-- **그 밖에**: Go, C, Python, TypeScript
+- **Language**: Java, Go, C, Python, TypeScript
 
 ## 연락처
 
