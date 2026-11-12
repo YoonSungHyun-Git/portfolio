@@ -1,4 +1,4 @@
-# 장비 운용 프로그램의 C→Go 재구축
+# 레거시 C의 Go 재구축
 
 > 2026 · 광섬유 분포형 센서(DAS) 관제 시스템 · 역할: 재구축 제안·설계·구현, 5명 팀 리딩
 > Go · CGO · net/http · RabbitMQ · Wails/Svelte
