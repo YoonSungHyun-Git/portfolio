@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:events;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+event-stream:
+  # 동시 구독자 상한. 상한 없이 연결을 받으면 메모리가 끝없이 늘 수 있다.
+  max-subscribers: 100
+  # 구독 연결 유지 시간(ms). 만료되면 클라이언트 EventSource가 자동 재연결한다.
+  timeout-ms: 3600000

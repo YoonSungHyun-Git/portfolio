@@ -1,0 +1,37 @@
+spring:
+  kafka:
+    # docker-compose.yml의 3노드 KRaft 클러스터
+    bootstrap-servers: localhost:19092,localhost:29092,localhost:39092
+    producer:
+      # 복제본 과반(min.insync.replicas=2)에 써져야 성공. 재시도해도 중복이 생기지 않게 멱등 프로듀서 사용
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        enable.idempotence: true
+        compression.type: lz4
+        spring.json.add.type.headers: false
+    consumer:
+      group-id: metrics-ingest
+      auto-offset-reset: earliest
+      # 자동 커밋을 끄고, 처리가 끝난 레코드만 커밋한다(listener.ack-mode: record)
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.value.default.type: dev.ysh.metrics.MetricSample
+        spring.json.use.type.headers: false
+    listener:
+      ack-mode: record
+
+metrics:
+  topic: metrics
+  partitions: 3
+  replicas: 3
+  # 키(host+metric)마다 최근 몇 개 표본으로 백분위를 계산할지
+  window-size: 1000
+  alert:
+    # P99가 이 값(ms)을 넘으면 이상
+    p99-threshold-ms: 200
+    # 연속 몇 번 넘으면 Pending → Critical
+    critical-after: 3

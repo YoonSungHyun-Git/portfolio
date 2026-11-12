@@ -1,0 +1,47 @@
+# ZooKeeper 없는 3노드 KRaft 클러스터. 노드마다 broker + controller를 함께 띄운다(combined 모드).
+# 컨트롤러 3표 → 1대가 죽어도 과반 유지. 복제 3벌, 최소 2벌에 써져야 성공.
+x-kafka-common: &kafka-common
+  image: apache/kafka:3.8.0
+  environment: &kafka-env
+    CLUSTER_ID: "4L6g3nShT-eMCtK--X86sw"
+    KAFKA_PROCESS_ROLES: broker,controller
+    KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-1:9093,2@kafka-2:9093,3@kafka-3:9093
+    KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+    KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+    KAFKA_DEFAULT_REPLICATION_FACTOR: 3
+    KAFKA_MIN_INSYNC_REPLICAS: 2
+    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
+    KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
+
+services:
+  kafka-1:
+    <<: *kafka-common
+    hostname: kafka-1
+    ports: ["19092:19092"]
+    environment:
+      <<: *kafka-env
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:19092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,EXTERNAL://localhost:19092
+
+  kafka-2:
+    <<: *kafka-common
+    hostname: kafka-2
+    ports: ["29092:29092"]
+    environment:
+      <<: *kafka-env
+      KAFKA_NODE_ID: 2
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:29092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:9092,EXTERNAL://localhost:29092
+
+  kafka-3:
+    <<: *kafka-common
+    hostname: kafka-3
+    ports: ["39092:39092"]
+    environment:
+      <<: *kafka-env
+      KAFKA_NODE_ID: 3
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:39092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:9092,EXTERNAL://localhost:39092
